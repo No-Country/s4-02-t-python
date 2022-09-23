@@ -1,2 +1,2 @@
 # s4-02-t-python
-Servicio online para donación de medicamentos
+Servicio online que permite donar medicamentos
