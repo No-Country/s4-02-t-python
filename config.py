@@ -2,7 +2,7 @@ from decouple import config
 
 
 class Config:
-    SECRET_KEY = config ('SECRET_KEY')
+    SECRET_KEY = config('SECRET_KEY')
 
 
 class DevelopmentConfig(Config):
@@ -11,6 +11,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
+
 
 config = {
     'development': DevelopmentConfig,
