@@ -52,7 +52,7 @@ def get_all_post():
 
 # find post by id
 @post_bp.route('/<id>', methods=['GET'])
-def get_post_by_id():
+def get_post_by_id(id):
     data = db.posts.find_one({'_id': ObjectId(id)})
     response = json_util.dumps(data)
     return Response(response, mimetype='application/json')
@@ -60,7 +60,8 @@ def get_post_by_id():
 
 # update post by id
 @post_bp.route('/<id>', methods=['PUT'])
-def update_post_by_id():
+def update_post_by_id(id):
+    post = db.posts.find_one({'_id': ObjectId(id)})
     publication_type = request.json['publication_type']
     publication_date = datetime.now().strftime("%d/%m/%Y")
     image = request.json["image"]
@@ -70,7 +71,7 @@ def update_post_by_id():
     meeting_place = request.json["meeting_place"]
 
     if publication_type and image and drug_name and description and presentation and meeting_place:
-        id = db.posts.insert_one({
+        id = db.posts.update_one({'_id': ObjectId(id)}, {'$set': {
             'author': session['user_id'],
             'publication_type': publication_type,
             'publication_date': publication_date,
@@ -79,9 +80,8 @@ def update_post_by_id():
             'description': description,
             'presentation': presentation,
             'meeting_place': meeting_place
-
-        })
-        message = jsonify({'message': 'Post created successfully...'})
+            }})
+        message = jsonify({'message': 'Post updated successfully...'})
         return message
     else:
         message = jsonify({"some data is incomplete or incorrect..."})
@@ -90,7 +90,7 @@ def update_post_by_id():
 
 # delete post by id
 @post_bp.route('/<id>', methods=['DELETE'])
-def delete_post_by_id():
+def delete_post_by_id(id):
     data = db.posts.delete_one({'_id': ObjectId(id)})
     message = jsonify({'message': "Post " + id + "was delete successfully"})
     return message
