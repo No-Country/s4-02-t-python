@@ -1,5 +1,4 @@
-from sys import prefix
-from flask import Blueprint
+from flask import Blueprint, g
 from flask import jsonify, request, Response, session
 from application.db.db import dbConnection
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -105,11 +104,10 @@ def login():
     # verify if email exist
     user = db.users.find_one({"email": email})
     if user:
-        # fullname = json_util.dumps(user['fullname'])
-        # print(fullname)
         # Verify password match
         if check_password_hash(user['password'], password):
             session['user_id'] = str(user['_id'])
+            print(session)
             return jsonify({'message': "User loging successfull..."})
         else:
             return jsonify({'message': 'Invalid crendentials'})
@@ -132,3 +130,7 @@ def not_found(error = None):
     })
     response.status_code = 404
     return response
+
+
+
+
