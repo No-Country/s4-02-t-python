@@ -33,3 +33,4 @@ Instrucciones de instalacion:
 - Armando Buendía (Full-Stack)
 - Juan Bautista Iglesias (Frontend Developer)
 - Angelo Montero (QA-tester)
+
