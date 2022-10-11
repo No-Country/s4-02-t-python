@@ -1,4 +1,3 @@
-from urllib import response
 from flask import Blueprint, Response, jsonify, request, session
 from application.db.db import dbConnection
 from datetime import datetime
@@ -23,8 +22,13 @@ def create_post():
     meeting_place = request.json["meeting_place"]
 
     if publication_type and image and drug_name and description and presentation and meeting_place:
-        id = db.posts.insert_one({
-            'author': session['user_id'],
+        id = session['user_id']
+        print(id)
+        author_data = db.users.find_one({'_id': ObjectId(id)})
+        author_first_name = author_data['first_name']
+        author_last_name = author_data['last_name']
+        data = db.posts.insert_one({
+            'author': author_first_name + ' ' + author_last_name,
             'publication_type': publication_type,
             'publication_date': publication_date,
             'image': image,
@@ -92,5 +96,5 @@ def update_post_by_id(id):
 @post_bp.route('/<id>', methods=['DELETE'])
 def delete_post_by_id(id):
     data = db.posts.delete_one({'_id': ObjectId(id)})
-    message = jsonify({'message': "Post " + id + "was delete successfully"})
+    message = jsonify({'message': "Post " + id + " was delete successfully"})
     return message
