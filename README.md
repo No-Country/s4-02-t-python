@@ -31,4 +31,6 @@ Instrucciones de instalacion:
 ## Colaboradores:
 - Jose Morales (Full-stack)
 - Armando Buendía (Full-Stack)
+- Juan Bautista Iglesias (Frontend Developer)
 - Angelo Montero (QA-tester)
+
