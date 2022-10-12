@@ -50,7 +50,6 @@ def create_post():
 def get_all_post():
     data = db.posts.find()
     response = json_util.dumps(data)
-    response.status_code = 200
     return Response(response, mimetype='application/json')
 
 
