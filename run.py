@@ -13,4 +13,4 @@ if __name__ == '__main__':
     app.register_blueprint(medicines_bp)
     app.register_blueprint(donations_bp)
     app.config.from_object(config['development'])
-    app.run(threaded=True , port=5000)
+    app.run(threaded=True, port=5000)
