@@ -55,7 +55,7 @@ def get_meeting(id):
     meeting = db.meetings.find_one({'_id': ObjectId(id)})
     if meeting:
         response = json_util.dumps(meeting)
-        response.status_code = 200
+        # response.status_code = 200
         print(meeting)
         return Response(response, mimetype='application/json')
     else:
@@ -64,17 +64,8 @@ def get_meeting(id):
 
 @meetings_bp.route('/update/<id>', methods=['PUT'])
 def update_meeting(id):
-    meeting = db.meetings.find_one({'_id': ObjectId(id)},{"_id": {'$toString': "$_id"}})
-    data = json_util.dumps(meeting)
-    __id = data[9:33]
-    print(__id,'<--meeting_id')
-    
-    post = db.meetings.find_one({'post_id': ObjectId(id)},{"_id": {'$toString': "$_id"}})
-    posdt = db.meetings.find_one({'post_id._id': ObjectId(id)})
-    print(posdt, '<--id de el post_id')
-    post_id = json_util.dumps(post)
-    print(post_id, '<--id de el meeting')
-    # d = json_util.dumps(post)
+    meeting = db.meetings.find_one({'_id': ObjectId(id)})
+    post_id = meeting['post_id']
     date = request.json['date']
     user = session['user_id']
     user_id = db.users.find_one({'_id': ObjectId(user)})
@@ -84,13 +75,13 @@ def update_meeting(id):
     if date and post_id:
         user_id = session['user_id']
         id = db.meetings.update_one({'_id': ObjectId(id)},
-            {'$set':{'date': date, 'user_id': [first_name, last_name]}}
+            {'$set':{'date': date}}
         )
         
         response = jsonify({
             'id': str(id),
             'date': date,
-            # 'post_id': post_id,
+            'post_id': post_id,
             'user_id': [first_name,last_name]
         })
         response.status_code = 200
