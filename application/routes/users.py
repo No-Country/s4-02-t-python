@@ -20,6 +20,8 @@ def create_user():
     password = request.json['password']
     country = request.json['country']
     city = request.json['city']
+    #agregar foto de usuario
+
 
     if last_name and email and country and password and first_name and city:
         hashed_password = generate_password_hash(password)
